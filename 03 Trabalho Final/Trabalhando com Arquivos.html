@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>.:: Iniciando o Trabalho Final ::.</title>
+<link rel="stylesheet" type="text/css" href="../../style/style.css" />
+</head>
+<body>
+<H1>COTUCA :: Curso Técnico em Informática 2012<BR>
+Estruturas de Dados</H1>
+
+<P>O nosso trabalho final está categorizado entre os "manipuladores de arquivos", portanto
+inicialmente vamos fazer a leitura das informações que temos armazenadas em um arquivo.</P>
+
+<P>Para fazer a leitura dos dados, utilizaremos as classes abaixo:</P>
+<UL>
+<LI>FileInputStream, que nos permite o acesso a um arquivo físico
+<LI>BufferedInputStream, que proverá o stream de dados das informações vindas do arquivo e
+<LI>DataInputStream, que permitirá a manipulação dessas informações. 
+</ul>
+
+<P>No início do código então teremos, para abrir um arquivo de nome teste.txt, as seguintes linhas de comando:</P>
+
+<PRE>
+        FileInputStream arquivoFisico = new FileInputStream("teste.txt");
+        BufferedInputStream buffReader = new BufferedInputStream(arquivoFisico);
+        DataInputStream   data = new DataInputStream(buffReader);
+</PRE> 
+
+<P>Logo após a abertura, declaramos um vetor de byte para armazenar os caracteres 
+que estão no arquivo, uma vez que sabemos que cada caracter ocupa exatamente um byte 
+na memória.</P>
+
+<PRE>
+     byte vetByte[];
+</PRE>
+
+<P>Para instanciar esse vetor, usaremos um método de FileInputStream chamado available() que nos diz exatamente
+quantos bytes o arquivo tem. Sendo assim, a instancia do vetor se faz da seguinte forma:</P>
+
+<PRE>
+   vetByte = new byte[arquivoFisico.available()];
+</PRE>
+
+<P>Fazendo uso do DataInputStream, vamos ler os dados do arquivo para o vetor de bytes da seguinte forma:</P>
+
+<PRE>
+   data.read(vetByte);
+</PRE>
+
+<P>Para escrever esse vetor de Bytes na tela, vamos usar um for um pouco diferente do que temos usado habiltualmente.</P>
+<P>Nesse for, vamos escrever letra por letra, de forma que os caracteres especiais (como pulo de linha) serão impressos como 
+caracteres e nos darão o efeito desejado. Para pegar cada letra, vamos usar um método do tipo String que se chama toCharArray, 
+que converte a String para um vetor de chars.</P>
+
+<P>Tendo o vetor de char, vamos usar a nova notação do for que tem dentro dos parênteses apenas dois elementos separados por
+dois pontos (:). O elemento antes dos ":" é o elemento que vai receber um valor e o elemento após o ":" é o elemento que vai
+doar valores, um ou mais, porém um de cada vez. O elemento doador deve ser um conjuto (no nosso caso um vetor de char) e assim
+o for vai <strong>automaticamente</strong> percorrer o vetor e colocar a cada iteração, um valor no elemento antes dos ":". Assim
+não precisamos mais inicializar um variável e controlá-la para percorrer o vetor!!</P>
+
+<P>Mas atenção!! Para usar o for desta forma, precisamos garantir que todas as posições dele estejam ocupadas ou tenham elementosa
+a serem trabalhados.</P>
+
+<P>Veja como fica o código:</P>
+
+<PRE>
+        for (char c : new String(vetByte).toCharArray())
+        {
+            System.out.print(c);
+        }
+</PRE>
+
+<P>Coloque tudo isso dentro de um main e rode pra ver o resultado!!!</P>				
+				
+<HR>
+<P>Essa é apenas uma forma de trabalhar com arquivo, mas ela lhe será muito útil!!!</P>
+
+<P>Agora que já temos a especificação do trabalho com arquivo, faça um método que 
+realize a leitura de um arquivo e crie uma tabela de aparições dos caracteres 
+nele contidos. O resultado final é a quantidade de vezes que cada caracter aparece no arquivo.</P>
+
+<P>Para isso, use a estrutura que vc desejar, desde que ao final, possamos saber quais são
+os caracteres que aparecem no arquivos e quantas vezes ele aparece.</P>
+
+<P>Depois de conseguir esses dados, ordene-os de forma que os caracteres que aparecem
+mais vezes sejam os primeiros da estrutura!</P>
+
+<HR>
+Mãos a obra!!!<BR>
+16/10/20102
+</body>
+</html>

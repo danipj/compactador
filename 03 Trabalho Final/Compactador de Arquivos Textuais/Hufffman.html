@@ -1,0 +1,188 @@
+<HTML>
+<HEAD>
+<TITLE>.:: Trabalho Final de Estrutura de Dados ::.</TITLE>
+<link rel="stylesheet" type="text/css" href="../../../style/style.css" />
+
+</HEAD>
+<BODY>
+
+
+<H1>COTUCA - Colégio Técnico de Campinas<BR>
+Curso Técnico em Informática<BR>
+Estrutura de Dados 2012 Noturno</H1>
+
+<HR><B><I>Compactação de arquivos utilizando o método de Huffman</I></B><HR>
+
+<P> 
+Como sabemos, cada caracter que utilizamos para compor um arquivo é representado 
+dentro do computador por uma sequência de 8 (oito) bits. Cada número representável 
+nesses oito bits (256 números) é associado à um símbolo através da tabela ASCII (American 
+Standard Code for Information Interchange).<P>
+Na tabela ASCII, por exemplo, a letra 'A' é representada pelo número 97 que pode
+ser expresso pela sequência de bits '01100001' que é a sequência utilizada internamente
+pelo computador a todo momento que desejamos representar (em tela, em uma impressora ou 
+em um arquivo) a letra 'A'. O mesmo ocorre para a letra 'a' (minúscula) e para todas
+as outras letras do alfabeto, para os digitos que representam os número, para os 
+símbolos existentes em seu teclado e para todos os caracteres de controle (ENTER, 
+Fim de linha, Fim de arquivo, Null) utilizados pelo computador. Cada um desses
+símbolos tem uma representação distinta.<P>
+Ao analisarmos um arquivo texto, podemos perceber que alguns símbolos da tabela 
+ASCII aparecem em maior frequência do que outros. Conte quantas vezes a letra 'e'
+aparece na frase anterior...<P>
+Sabendo que todos os símbolos são representados utilizando oito bits e sabendo que
+alguns símbolos aparecem com maior frequência nos textos, podemos deduzir que
+se conseguíssemos representar esses símbolos mais frequentes com uma quantidade menor
+de bits, conseguiríamos uma diminuição no tamanho final do arquivo.<P>
+Em 1952, Davis A. Huffman, em resposta a um desafio de um de seus professores à
+sua classe no Massachussets Institute of Technology, desenvolveu um algoritmo de 
+compressão de dados com base nessa observação. O algoritmo ficou conhecido como 
+algoritmo de compressão de Huffman ou simplesmente algoritmo de Huffman e será ele
+a base deste nosso projeto.<P>
+
+<B><I>Funcionamento do Algotirmo</I></B><P>
+O primeiro passo para a execução do algoritmo de Huffman é construir uma tabela
+de ocorrência de cada caracter no texto a ser compactado. Para ilustrar a explicação, 
+utilizaremos a seguinte mensagem original: <P>
+<P><B><I>Batatinha quando nasce, esparrama pelo chão</I></B></P>
+Para a frase acima teremos a seguinte tabela de ocorrência:<P>
+
+<table width="400" align="center" cellpadding="0" cellspacing="0">
+<TR><TH width="90">Caracter</TH><TH width="90">Ocorrência</TH><TH>&nbsp;</TH><TH width="90">Caracter</TH><TH width="90">Ocorrência</TH></TR>
+<TR><TD>B</TD><TD>1</TD><TD>&nbsp;</TD><TD>a</TD><TD>8</TD></TR>
+<TR><TD>t</TD><TD>2</TD><TD>&nbsp;</TD><TD>i</TD><TD>1</TD></TR>
+<TR><TD>n</TD><TD>3</TD><TD>&nbsp;</TD><TD>h</TD><TD>2</TD></TR>
+<TR><TD>q</TD><TD>1</TD><TD>&nbsp;</TD><TD>u</TD><TD>1</TD></TR>
+<TR><TD>d</TD><TD>1</TD><TD>&nbsp;</TD><TD>o</TD><TD>3</TD></TR>
+<TR><TD>s</TD><TD>2</TD><TD>&nbsp;</TD><TD>c</TD><TD>2</TD></TR>
+<TR><TD>e</TD><TD>3</TD><TD>&nbsp;</TD><TD>p</TD><TD>2</TD></TR>
+<TR><TD>r</TD><TD>2</TD><TD>&nbsp;</TD><TD>m</TD><TD>1</TD></TR>
+<TR><TD>l</TD><TD>1</TD><TD>&nbsp;</TD><TD>ã</TD><TD>1</TD></TR>
+<TR><TD>,</TD><TD>1</TD><TD>&nbsp;</TD><TD>branco</TD><TD>5</TD></TR>
+</table><P>
+Para sabermos o tamanho total de um arquivo cujo conteúdo fosse a frase acima, teríamos
+apenas que somar as ocorrências obtendo o total de caracteres do texto e depois
+multiplicar este valor por 8, que é a quantidade de bits utilizada para representar
+cada caracter. Fazendo as contas obtemos o número 344 (43 caracteres * 8 bits).<P>  
+Pela tabela acima podemos perceber que o texto tem 20 caracteres distintos. Perceba 
+que para representar 20 valores distintos, precisamos de apenas 5 bits e não de 8.
+Com essa informação podemos pensar que o tamanho do nosso arquivo pode ser reduzido
+a 215 (43 caracteres * 5 bits) o que já nos dá uma redução de aproximadamente 37% no 
+tamanho original.<P> 
+Mas a idéia é reduzir ainda mais o tamanho final do arquivo aproveitando o fato
+já percebido por nós de que alguns caracteres aparecem com maior frequência no
+texto e, representar esses caracteres com uma quantidade menor ainda de bits.<P>
+Para seguir na execução do algoritmo, vamos ordenar a tabela acima por ocorrência.<P>
+
+<table width="400" align="center" cellpadding="0" cellspacing="0">
+<TR><TH width="90">Caracter</TH><TH width="90">Ocorrência</TH><TH>&nbsp;</TH><TH width="90">Caracter</TH><TH width="90">Ocorrência</TH></TR>
+<TR><TD>a</TD><TD>8</TD><TD>&nbsp;</TD><TD>p</TD><TD>2</TD></TR>
+<TR><TD>branco</TD><TD>5</TD><TD>&nbsp;</TD><TD>B</TD><TD>1</TD></TR>
+<TR><TD>n</TD><TD>3</TD><TD>&nbsp;</TD><TD>i</TD><TD>1</TD></TR>
+<TR><TD>e</TD><TD>3</TD><TD>&nbsp;</TD><TD>q</TD><TD>1</TD></TR>
+<TR><TD>o</TD><TD>3</TD><TD>&nbsp;</TD><TD>u</TD><TD>1</TD></TR>
+<TR><TD>t</TD><TD>2</TD><TD>&nbsp;</TD><TD>d</TD><TD>1</TD></TR>
+<TR><TD>s</TD><TD>2</TD><TD>&nbsp;</TD><TD>m</TD><TD>1</TD></TR>
+<TR><TD>r</TD><TD>2</TD><TD>&nbsp;</TD><TD>l</TD><TD>1</TD></TR>
+<TR><TD>h</TD><TD>2</TD><TD>&nbsp;</TD><TD>ã</TD><TD>1</TD></TR>
+<TR><TD>c</TD><TD>2</TD><TD>&nbsp;</TD><TD>,</TD><TD>1</TD></TR>
+</table><P>
+O próximo passo é montar uma árvore binária onde os nós-folhas representarão
+os caracteres do nosso texto original e o caminho a ser percorrido desde o nó-raiz
+até o nó-folha será utilizado para criar a representação binária de cada caracter.<P>
+
+Iniciaremos o trabalho gerando um nó para cada par caracter/ocorrência:<P>
+<CENTER><img src="./Huff01.gif"></CENTER><P>
+Neste ponto, o caracter já não será mais trabalhado e nosso pensamento se 
+restringirá às ocorrências deles. O proximo passo é pegar os dois nós de menor 
+ocorrência e montar uma pequena árvore onde eles serão as folhas e a raíz será um 
+novo nó cujo caracter não existirá e a ocorrência será a soma das ocorrências
+dos dois nós-filhos. Esta árvore será inserida na sequência dos nós logo após
+o último número de ocorrência menor do que o de sua raiz. Realizando esta operação 
+teremos a seguinte sequência de árvores:<P>
+<CENTER><img src="./Huff02.gif"></CENTER><P>
+Fazendo isso com todo par de arvores de menor ocorrência teremos:<P>
+<CENTER><img src="./Huff03.gif"></CENTER><P>
+Perceba que a ocorrência registrada agora no nó-raiz da árvore é exatamente a 
+quantidade de caracteres que temos no texto original. Agora fazemos o seguinte: 
+Daremos a cada deslocamento para um nó à direita, o bit 1 e a cada deslocamento 
+para um nó à esquerda, o bit zero. Nossa árvore ficará assim:<P>
+<CENTER><img src="./Huff04.gif"></CENTER><P>
+Basta agora identificarmos o código de Huffman para cada um dos caracteres deste
+texto. Para isso basta percorrer a árvore até atingir um caracter e montar o 
+conjunto de bits que o representa. A representação do caracter 'a', o de maior 
+ocorrência, será '11' e a representação do caracter 'u', um dos de menor ocorrência
+será '10110'. Perceba que os de maior ocorrência são representados por uma sequência
+menor de bits e os de menor ocorrência são representados por uma sequência
+maior de bits.<P>
+A tabela de Huffman para os caracteres do texto original seria então:<P>
+<table width="400" align="center" cellpadding="0" cellspacing="0">
+<TR><TH width="90">Caracter</TH><TH width="*">Código de Huffman</TH></TR>
+<TR><TD>a</TD><TD>11</TD></TR>
+<TR><TD>branco</TD><TD>011</TD></TR>
+<TR><TD>n</TD><TD>0011</TD></TR>
+<TR><TD>e</TD><TD>0100</TD></TR>
+<TR><TD>o</TD><TD>0101</TD></TR>
+<TR><TD>p</TD><TD>00000</TD></TR>
+<TR><TD>t</TD><TD>1001</TD></TR>
+<TR><TD>s</TD><TD>00100</TD></TR>
+<TR><TD>r</TD><TD>00101</TD></TR>
+<TR><TD>h</TD><TD>00010</TD></TR>
+<TR><TD>c</TD><TD>00011</TD></TR>
+<TR><TD>i</TD><TD>100000</TD></TR>
+<TR><TD>B</TD><TD>10001</TD></TR>
+<TR><TD>q</TD><TD>100001</TD></TR>
+<TR><TD>u</TD><TD>10110</TD></TR>
+<TR><TD>d</TD><TD>10111</TD></TR>
+<TR><TD>m</TD><TD>10100</TD></TR>
+<TR><TD>l</TD><TD>10101</TD></TR>
+<TR><TD>ã</TD><TD>000010</TD></TR>
+<TR><TD>,</TD><TD>000011</TD></TR>
+</table><P>
+
+Nos resta agora apenas percorrer o texto original codificando os seus caracteres em bits de
+acordo com a tabela acima até que tenhamos um conjunto de 8 bits que serão enviados
+para o texto compactado.<P>
+Para efetuar a descompactação de um arquivo compactado, basta ler bit a bit do arquivo
+compactado e seguir a árvore montada até atingir uma folha, que será o caracter
+representado pela sequência de bits lida, e assim seguir até atingir o final do arquivo.  <P>
+ 
+Com base no algoritmo de Huffman desenvolva classes em java que permitam a compactação e
+descompactação de arquivos.<P> 
+
+<HR>
+<B><I>Especificações Técnicas</B></I><P>
+<UL>
+<LI>Procure seguir os conceitos de OO adquiridos ao long do curso Técnico em Informática.
+<LI>Desenvolva classes prestadoras de serviços separadas da classe principal do 
+projeto, que deve apenas utilizá-las para gerenciar a execução da compactação/descompactação.
+<LI>Todos os arquivos utilizados para desenvolvimento de código devem conter
+ao seu início um comentário com o nome do seu curso, da disciplina e do desenvolvedor
+do projeto.
+<LI>Comente os blocos de código das suas classes assim como os métodos nela desenvolvidos.
+<LI>Faça comentário voltados para Javadoc para os seus membros.
+<LI>Utilize nomes significativos tanto para as classes como para os membros.
+</UL>
+
+<HR>
+<B><I>Dados sobre a Entrega</B></I><P>
+<UL><LI>O projeto deve ser desenvolvido <B><I>individualmente</B></I>.
+<LI>Devem ser entregue todos os arquivos envolvidos no desenvolvimento do projeto assim como o arquivo .jar gerado
+pelo IDE de desenvolvimento.</LI>
+<LI>A entrega se fará em etapas seguindo o seguinte calendário:<P>
+   <table width="700px">
+  <tr>
+     <th>Data</th><th>Funcionalidade</th></tr>
+     <tr><td>26/10</td><td>Montagem da árvore de Huffman e sua respectiva tabela</td></tr>
+     <tr class="invertido"><td>13/11</td><td>Codificação e gravação do arquivo com base na tabela de huffman</td></tr>
+     <tr><td>29/11</td><td>Leitura, decodificação e gravação do arquivo descompactado</td></tr>
+     <tr class="invertido"><td>04/12</td><td>Entrega do projeto pronto com interface gráfica e textual</td>
+     <tr><td>06/12</td><td>Entrevista do Projeto Final</td>
+     <tr class="invertido"><td>07/12</td><td>Entrevista do Projeto Final</td>
+   </tr>
+</table> 
+</UL>
+<HR>
+<B>BOM TRABALHO!!</B>
+
+</BODY>
+</HTML>
